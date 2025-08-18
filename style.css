@@ -74,3 +74,9 @@ button {
     border-radius: 100%;
     cursor: pointer;
 }
+
+#btn1 {
+    background-color: rgb(110, 110, 116);
+    border: 0;
+    cursor: default;
+}
