@@ -23,6 +23,7 @@ function buttonClicked(btn) {
     switch (type) {
         case "reset-button":
             reset();
+            updateDisplay("");
             break;
         case "delete-button":
             deleteNumber();
@@ -34,7 +35,8 @@ function buttonClicked(btn) {
             selectOperator(btn);
             break;
         case "equal-button":
-            operate(a, b, operator);
+            updateDisplay(operate(a, b, operator));
+            break;
         default:
             break;
     }
@@ -50,7 +52,6 @@ function reset() {
     a = "";
     b = "";
     operator = "";
-    updateDisplay("");
     isFirstTerm = true;
 }
 
@@ -66,9 +67,7 @@ function deleteNumber() {
 
 function addNumber(val) {
     if (isFirstTerm) {
-        console.log(a);
         a += val.textContent;
-        console.log(a);
         updateDisplay(a);
     } else {
         b += val.textContent;
@@ -77,9 +76,13 @@ function addNumber(val) {
 }
 
 function selectOperator(choice) {
+    if (!isFirstTerm && b != "") {
+        let result = operate(a, b, operator);
+        a = result;
+    }
     operator = choice.textContent;
     isFirstTerm = false;
-    updateDisplay(a+operator)
+    updateDisplay(a+operator);
 }
 
 function operate(a, b, operator) {
@@ -91,7 +94,7 @@ function operate(a, b, operator) {
         case "-":
             result = substract(a, b);
             break;
-        case "x":
+        case "X":
             result = multiply(a, b);
             break;
         case "/":
@@ -101,22 +104,23 @@ function operate(a, b, operator) {
             result = divide(a, 100);
             break;
     }
-    displayArea.textContent = result;
+    reset();
+    return result;
 }
 
 function add(a, b) {
-    return a + b;
+    return Number(a) + Number(b);
 }
 
 function substract(a, b) {
-    return a - b;
+    return Number(a) - Number(b);
 }
 
 function multiply(a, b) {
-    return a * b;
+    return Number(a) * Number(b);
 }
 
 function divide(a, b) {
-    return a / b;
+    return Number(a) / Number(b);
 }
 
