@@ -23,14 +23,8 @@ const keyMap = {
 
     '.': 'btnDot',
 
-    'c': 'btnC',
-    'C': 'btnC',
-    'a': 'btnAC',
-    'A': 'btnAC',
-
     '%': 'btnPercent',
-    'x': 'btnMultiply',
-    'X': 'btnMultiply',
+    '*': 'btnMultiply',
     '/': 'btnDivide',
     '-': 'btnMinus',
     '+': 'btnPlus',
