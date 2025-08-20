@@ -67,6 +67,7 @@ body {
     align-items: flex-end;
     padding: 2% 5%;
     font-size: 42px;
+    overflow: hidden;
 }
 
 /* Buttons */
@@ -113,6 +114,6 @@ button:hover {
     background-color: rgb(252, 127, 11);
 }
 
-#btn19 {
+#btnPlus {
     aspect-ratio: 1 / 2;
 }

@@ -9,6 +9,36 @@ let operator = "";
 let isFirstTerm = true;
 let isResult = false;
 
+const keyMap = {
+    '0': 'btn0',
+    '1': 'btn1',
+    '2': 'btn2',
+    '3': 'btn3',
+    '4': 'btn4',
+    '5': 'btn5',
+    '6': 'btn6',
+    '7': 'btn7',
+    '8': 'btn8',
+    '9': 'btn9',
+
+    '.': 'btnDot',
+
+    'c': 'btnC',
+    'C': 'btnC',
+    'a': 'btnAC',
+    'A': 'btnAC',
+
+    '%': 'btnPercent',
+    'x': 'btnMultiply',
+    'X': 'btnMultiply',
+    '/': 'btnDivide',
+    '-': 'btnMinus',
+    '+': 'btnPlus',
+
+    '=': 'btnEqual',
+    'Enter': 'btnEqual'
+};
+
 init();
 
 function init() {
@@ -17,7 +47,51 @@ function init() {
         if (btn) {
             buttonClicked(btn);
         }
-    })
+    });
+
+    document.addEventListener("keydown", (event) => {
+        let btn = btnDiv.querySelector("#"+keyMap[event.key]);
+        switch (event.key) {
+            case "0":
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+                addNumber(btn);
+                break;
+
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+            case "%":
+                selectOperator(btn);
+                break;
+
+            case "=":
+            case "Enter":
+                manageOperation();
+                break;
+
+            case "Backspace":
+            case "Delete":
+                deleteNumber();
+                break;
+
+            case ".":
+            case ",":
+                addKomma(btn);
+                break;
+
+            default:
+                return;
+        }
+    });
 }
 
 function buttonClicked(btn) {
@@ -38,12 +112,13 @@ function buttonClicked(btn) {
             break;
         case "equal-button":
             manageOperation();
+            break;
         case "komma-button":
             addKomma(btn);
             break;
         default:
             break;
-    }
+    };
 }
 
 function updateDisplay(content) {
@@ -57,6 +132,7 @@ function reset() {
     b = "";
     operator = "";
     isFirstTerm = true;
+    if (activeOperator) activeOperator.classList.toggle("active-operator", false);
 }
 
 function addNumber(val) {
@@ -86,9 +162,14 @@ function deleteNumber() {
     if (isFirstTerm) {
         a = a.slice(0, -1);
         updateDisplay(a);
-    } else {
+    } else if (b != "") {
         b = b.slice(0, -1);
         updateDisplay(b);
+    } else {
+        operator = "";
+        isFirstTerm = true;
+        activeOperator.classList.toggle("active-operator", false);
+        updateDisplay(a);
     }
 }
 
@@ -105,11 +186,13 @@ function selectOperator(choice) {
     }
     operator = choice.textContent;
     isFirstTerm = false;
-    updateDisplay(a+operator);
+    updateDisplay(a);
 }
 
 function manageOperation() {
-    if (activeOperator) activeOperator.classList.toggle("active-operator", false);
+    if (activeOperator) {
+        activeOperator.classList.toggle("active-operator", false);
+    }
     if (b != "") {
         a = operate(a, b, operator);
         b = "";
@@ -117,6 +200,8 @@ function manageOperation() {
     }
     isFirstTerm = true;
     isResult = true;
+    
+    if (a.toString().length > 10) a = Number(a).toExponential();
     updateDisplay(a);
 }
 
@@ -155,6 +240,11 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
+    if (b == "0") {
+        alert("Nice try, but you cannot divide by 0 :c");
+        reset();
+        return;
+    }
     return Number(a) / Number(b);
 }
 
