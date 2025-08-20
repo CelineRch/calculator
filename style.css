@@ -97,11 +97,11 @@ button:hover {
     background-color: rgba(255, 134, 21, 0.911)
 }
 
-.numeric-button:hover {
+.numeric-button:hover, .komma-button:hover {
     background-color: rgb(99, 114, 116);
 }
 
-.operator-button:hover {
+.operator-button:hover, .active-operator {
     background-color: rgb(165, 133, 155);
 }
 
